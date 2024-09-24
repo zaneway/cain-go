@@ -368,8 +368,8 @@ var algoName = [...]string{
 	SM2WithSM3:       "SM2-SM3",
 	SM2WithSHA1:      "SM2-SHA1",
 	SM2WithSHA256:    "SM2-SHA256",
-	BjcaOTS:          "BJCA-OTS",
-	BjcaDilithium:    "BJCA-DILITHIUM",
+	BjcaOTS:          "OTS-SM3",
+	BjcaDilithium:    "DILITHIUM-SHA256",
 }
 
 func (algo SignatureAlgorithm) String() string {
