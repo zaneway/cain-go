@@ -324,6 +324,7 @@ const (
 	SM2WithSHA1
 	SM2WithSHA256
 	//PQC
+	BjcaDilithium
 	DilithiumModeTwo
 	DilithiumModeThree
 	DilithiumModeFive
@@ -331,7 +332,7 @@ const (
 	KyberModeTwo
 	KyberModeThree
 	KyberModeFour
-
+	BjcaOTS
 	OTSModeOne
 	OTSModeTwo
 	OTSModeFour
@@ -457,14 +458,17 @@ var (
 	oidSignatureSM2WithSHA1     = asn1.ObjectIdentifier{1, 2, 156, 10197, 1, 502}
 	oidSignatureSM2WithSHA256   = asn1.ObjectIdentifier{1, 2, 156, 10197, 1, 503}
 	//Dilithium
+	oidSignatureDilithium = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 1, 1}
 	oidDilithiumModeTwo   = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 1, 2, 2}
 	oidDilithiumModeThree = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 1, 2, 3}
 	oidDilithiumModeFive  = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 1, 2, 5}
 	//Kyber
+
 	oidKyberModeTwo   = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 2, 2, 2}
 	oidKyberModeThree = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 2, 2, 3}
 	oidKyberModeFour  = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 2, 2, 4}
 
+	oidSignatureOTS = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 3, 1}
 	oidOTSModeOne   = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 3, 2, 1}
 	oidOTSModeTwo   = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 3, 2, 2}
 	oidOTSModeFour  = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 3, 2, 4}
@@ -512,12 +516,14 @@ var signatureAlgorithmDetails = []struct {
 	{SM2WithSHA1, oidSignatureSM2WithSHA1, ECDSA, SHA1},
 	{SM2WithSHA256, oidSignatureSM2WithSHA256, ECDSA, SHA256},
 	{SM2WithSHA256, oidSignatureSM2WithSHA256, ECDSA, SHA256},
+	{BjcaDilithium, oidSignatureDilithium, Dilithium, SHA256},
 	{DilithiumModeTwo, oidDilithiumModeTwo, Dilithium, SHA256},
 	{DilithiumModeThree, oidDilithiumModeThree, Dilithium, SHA256},
 	{DilithiumModeFive, oidDilithiumModeFive, Dilithium, SHA256},
 	{KyberModeTwo, oidKyberModeTwo, Kyber, SHA256},
 	{KyberModeThree, oidKyberModeThree, Kyber, SHA256},
 	{KyberModeFour, oidKyberModeFour, Kyber, SHA256},
+	{BjcaOTS, oidSignatureOTS, OTS, SM3},
 	{OTSModeOne, oidOTSModeOne, OTS, SM3},
 	{OTSModeTwo, oidOTSModeTwo, OTS, SM3},
 	{OTSModeFour, oidOTSModeFour, OTS, SM3},
