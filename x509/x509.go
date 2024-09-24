@@ -686,18 +686,11 @@ func getPublicKeyAlgorithmFromAlgorithm(alg pkix.AlgorithmIdentifier) PublicKeyA
 			return SM2
 		}
 		return ECDSA
-	case oid.Equal(oidDilithiumModeTwo):
-	case oid.Equal(oidDilithiumModeThree):
-	case oid.Equal(oidDilithiumModeFive):
+	case oid.Equal(oidDilithiumModeTwo), oid.Equal(oidDilithiumModeThree), oid.Equal(oidDilithiumModeFive):
 		return Dilithium
-	case oid.Equal(oidKyberModeTwo):
-	case oid.Equal(oidKyberModeThree):
-	case oid.Equal(oidKyberModeFour):
+	case oid.Equal(oidKyberModeTwo), oid.Equal(oidKyberModeThree), oid.Equal(oidKyberModeFour):
 		return Kyber
-	case oid.Equal(oidOTSModeOne):
-	case oid.Equal(oidOTSModeTwo):
-	case oid.Equal(oidOTSModeFour):
-	case oid.Equal(oidOTSModeEight):
+	case oid.Equal(oidOTSModeOne), oid.Equal(oidOTSModeTwo), oid.Equal(oidOTSModeFour), oid.Equal(oidOTSModeEight):
 		return OTS
 
 	}
