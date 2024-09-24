@@ -461,20 +461,8 @@ var (
 	oidSignatureSM2WithSHA256   = asn1.ObjectIdentifier{1, 2, 156, 10197, 1, 503}
 	//Dilithium
 	oidSignatureDilithium = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 1, 1}
-	oidDilithiumModeTwo   = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 1, 2, 2}
-	oidDilithiumModeThree = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 1, 2, 3}
-	oidDilithiumModeFive  = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 1, 2, 5}
-	//Kyber
-
-	oidKyberModeTwo   = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 2, 2, 2}
-	oidKyberModeThree = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 2, 2, 3}
-	oidKyberModeFour  = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 2, 2, 4}
 
 	oidSignatureOTS = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 3, 1}
-	oidOTSModeOne   = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 3, 2, 1}
-	oidOTSModeTwo   = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 3, 2, 2}
-	oidOTSModeFour  = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 3, 2, 4}
-	oidOTSModeEight = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 3, 2, 8}
 
 	//	oidSignatureSM3WithRSA      = asn1.ObjectIdentifier{1, 2, 156, 10197, 1, 504}
 
@@ -519,17 +507,17 @@ var signatureAlgorithmDetails = []struct {
 	{SM2WithSHA256, oidSignatureSM2WithSHA256, ECDSA, SHA256},
 	{SM2WithSHA256, oidSignatureSM2WithSHA256, ECDSA, SHA256},
 	{BjcaDilithium, oidSignatureDilithium, Dilithium, SHA256},
-	{DilithiumModeTwo, oidDilithiumModeTwo, Dilithium, SHA256},
-	{DilithiumModeThree, oidDilithiumModeThree, Dilithium, SHA256},
-	{DilithiumModeFive, oidDilithiumModeFive, Dilithium, SHA256},
-	{KyberModeTwo, oidKyberModeTwo, Kyber, SHA256},
-	{KyberModeThree, oidKyberModeThree, Kyber, SHA256},
-	{KyberModeFour, oidKyberModeFour, Kyber, SHA256},
+	//{DilithiumModeTwo, oidDilithiumModeTwo, Dilithium, SHA256},
+	//{DilithiumModeThree, oidDilithiumModeThree, Dilithium, SHA256},
+	//{DilithiumModeFive, oidDilithiumModeFive, Dilithium, SHA256},
+	//{KyberModeTwo, oidKyberModeTwo, Kyber, SHA256},
+	//{KyberModeThree, oidKyberModeThree, Kyber, SHA256},
+	//{KyberModeFour, oidKyberModeFour, Kyber, SHA256},
 	{BjcaOTS, oidSignatureOTS, OTS, SM3},
-	{OTSModeOne, oidOTSModeOne, OTS, SM3},
-	{OTSModeTwo, oidOTSModeTwo, OTS, SM3},
-	{OTSModeFour, oidOTSModeFour, OTS, SM3},
-	{OTSModeEight, oidOTSModeEight, OTS, SM3},
+	//{OTSModeOne, oidOTSModeOne, OTS, SM3},
+	//{OTSModeTwo, oidOTSModeTwo, OTS, SM3},
+	//{OTSModeFour, oidOTSModeFour, OTS, SM3},
+	//{OTSModeEight, oidOTSModeEight, OTS, SM3},
 
 	//	{SM3WithRSA, oidSignatureSM3WithRSA, RSA, SM3},
 }
@@ -663,13 +651,24 @@ func getSignatureAlgorithmFromAI(ai pkix.AlgorithmIdentifier) SignatureAlgorithm
 //	id-ecPublicKey OBJECT IDENTIFIER ::= {
 //	      iso(1) member-body(2) us(840) ansi-X9-62(10045) keyType(2) 1 }
 var (
-	oidPublicKeyRSA       = asn1.ObjectIdentifier{1, 2, 840, 113549, 1, 1, 1}
-	oidPublicKeyDSA       = asn1.ObjectIdentifier{1, 2, 840, 10040, 4, 1}
-	oidPublicKeyECDSA     = asn1.ObjectIdentifier{1, 2, 840, 10045, 2, 1}
-	oidPublicKeySM2       = asn1.ObjectIdentifier{1, 2, 156, 10197, 1, 301}
-	oidPublicKeyDilithium = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 1, 2}
-	oidPublicKeyKyber     = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 2, 2}
-	oidPublicKeyOTS       = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 3, 2}
+	oidPublicKeyRSA   = asn1.ObjectIdentifier{1, 2, 840, 113549, 1, 1, 1}
+	oidPublicKeyDSA   = asn1.ObjectIdentifier{1, 2, 840, 10040, 4, 1}
+	oidPublicKeyECDSA = asn1.ObjectIdentifier{1, 2, 840, 10045, 2, 1}
+	oidPublicKeySM2   = asn1.ObjectIdentifier{1, 2, 156, 10197, 1, 301}
+
+	oidDilithiumModeTwo   = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 1, 2, 2}
+	oidDilithiumModeThree = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 1, 2, 3}
+	oidDilithiumModeFive  = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 1, 2, 5}
+	//Kyber
+
+	oidKyberModeTwo   = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 2, 2, 2}
+	oidKyberModeThree = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 2, 2, 3}
+	oidKyberModeFour  = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 2, 2, 4}
+
+	oidOTSModeOne   = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 3, 2, 1}
+	oidOTSModeTwo   = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 3, 2, 2}
+	oidOTSModeFour  = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 3, 2, 4}
+	oidOTSModeEight = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 3, 2, 8}
 )
 
 func getPublicKeyAlgorithmFromAlgorithm(alg pkix.AlgorithmIdentifier) PublicKeyAlgorithm {
@@ -687,11 +686,18 @@ func getPublicKeyAlgorithmFromAlgorithm(alg pkix.AlgorithmIdentifier) PublicKeyA
 			return SM2
 		}
 		return ECDSA
-	case oid.Equal(oidPublicKeyDilithium):
+	case oid.Equal(oidDilithiumModeTwo):
+	case oid.Equal(oidDilithiumModeThree):
+	case oid.Equal(oidDilithiumModeFive):
 		return Dilithium
-	case oid.Equal(oidPublicKeyKyber):
+	case oid.Equal(oidKyberModeTwo):
+	case oid.Equal(oidKyberModeThree):
+	case oid.Equal(oidKyberModeFour):
 		return Kyber
-	case oid.Equal(oidPublicKeyOTS):
+	case oid.Equal(oidOTSModeOne):
+	case oid.Equal(oidOTSModeTwo):
+	case oid.Equal(oidOTSModeFour):
+	case oid.Equal(oidOTSModeEight):
 		return OTS
 
 	}
