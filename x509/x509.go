@@ -323,6 +323,19 @@ const (
 	SM2WithSM3
 	SM2WithSHA1
 	SM2WithSHA256
+	//PQC
+	DilithiumModeTwo
+	DilithiumModeThree
+	DilithiumModeFive
+
+	KyberModeTwo
+	KyberModeThree
+	KyberModeFour
+
+	OTSModeOne
+	OTSModeTwo
+	OTSModeFour
+	OTSModeEight
 )
 
 func (algo SignatureAlgorithm) isRSAPSS() bool {
@@ -371,6 +384,9 @@ const (
 	DSA
 	ECDSA
 	SM2
+	Dilithium
+	Kyber
+	OTS
 )
 
 // OIDs for signature algorithms
@@ -440,6 +456,20 @@ var (
 	oidSignatureSM2WithSM3      = asn1.ObjectIdentifier{1, 2, 156, 10197, 1, 501}
 	oidSignatureSM2WithSHA1     = asn1.ObjectIdentifier{1, 2, 156, 10197, 1, 502}
 	oidSignatureSM2WithSHA256   = asn1.ObjectIdentifier{1, 2, 156, 10197, 1, 503}
+	//Dilithium
+	oidDilithiumModeTwo   = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 1, 2, 2}
+	oidDilithiumModeThree = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 1, 2, 3}
+	oidDilithiumModeFive  = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 1, 2, 5}
+	//Kyber
+	oidKyberModeTwo   = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 2, 2, 2}
+	oidKyberModeThree = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 2, 2, 3}
+	oidKyberModeFour  = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 2, 2, 4}
+
+	oidOTSModeOne   = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 3, 2, 1}
+	oidOTSModeTwo   = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 3, 2, 2}
+	oidOTSModeFour  = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 3, 2, 4}
+	oidOTSModeEight = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 3, 2, 8}
+
 	//	oidSignatureSM3WithRSA      = asn1.ObjectIdentifier{1, 2, 156, 10197, 1, 504}
 
 	oidSM3     = asn1.ObjectIdentifier{1, 2, 156, 10197, 1, 401, 1}
@@ -481,6 +511,18 @@ var signatureAlgorithmDetails = []struct {
 	{SM2WithSM3, oidSignatureSM2WithSM3, ECDSA, SM3},
 	{SM2WithSHA1, oidSignatureSM2WithSHA1, ECDSA, SHA1},
 	{SM2WithSHA256, oidSignatureSM2WithSHA256, ECDSA, SHA256},
+	{SM2WithSHA256, oidSignatureSM2WithSHA256, ECDSA, SHA256},
+	{DilithiumModeTwo, oidDilithiumModeTwo, Dilithium, SHA256},
+	{DilithiumModeThree, oidDilithiumModeThree, Dilithium, SHA256},
+	{DilithiumModeFive, oidDilithiumModeFive, Dilithium, SHA256},
+	{KyberModeTwo, oidKyberModeTwo, Kyber, SHA256},
+	{KyberModeThree, oidKyberModeThree, Kyber, SHA256},
+	{KyberModeFour, oidKyberModeFour, Kyber, SHA256},
+	{OTSModeOne, oidOTSModeOne, OTS, SM3},
+	{OTSModeTwo, oidOTSModeTwo, OTS, SM3},
+	{OTSModeFour, oidOTSModeFour, OTS, SM3},
+	{OTSModeEight, oidOTSModeEight, OTS, SM3},
+
 	//	{SM3WithRSA, oidSignatureSM3WithRSA, RSA, SM3},
 }
 
