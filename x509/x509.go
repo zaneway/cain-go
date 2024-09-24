@@ -368,6 +368,8 @@ var algoName = [...]string{
 	SM2WithSM3:       "SM2-SM3",
 	SM2WithSHA1:      "SM2-SHA1",
 	SM2WithSHA256:    "SM2-SHA256",
+	BjcaOTS:          "BJCA-OTS",
+	BjcaDilithium:    "BJCA-DILITHIUM",
 }
 
 func (algo SignatureAlgorithm) String() string {
@@ -661,10 +663,13 @@ func getSignatureAlgorithmFromAI(ai pkix.AlgorithmIdentifier) SignatureAlgorithm
 //	id-ecPublicKey OBJECT IDENTIFIER ::= {
 //	      iso(1) member-body(2) us(840) ansi-X9-62(10045) keyType(2) 1 }
 var (
-	oidPublicKeyRSA   = asn1.ObjectIdentifier{1, 2, 840, 113549, 1, 1, 1}
-	oidPublicKeyDSA   = asn1.ObjectIdentifier{1, 2, 840, 10040, 4, 1}
-	oidPublicKeyECDSA = asn1.ObjectIdentifier{1, 2, 840, 10045, 2, 1}
-	oidPublicKeySM2   = asn1.ObjectIdentifier{1, 2, 156, 10197, 1, 301}
+	oidPublicKeyRSA       = asn1.ObjectIdentifier{1, 2, 840, 113549, 1, 1, 1}
+	oidPublicKeyDSA       = asn1.ObjectIdentifier{1, 2, 840, 10040, 4, 1}
+	oidPublicKeyECDSA     = asn1.ObjectIdentifier{1, 2, 840, 10045, 2, 1}
+	oidPublicKeySM2       = asn1.ObjectIdentifier{1, 2, 156, 10197, 1, 301}
+	oidPublicKeyDilithium = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 1, 2}
+	oidPublicKeyKyber     = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 2, 2}
+	oidPublicKeyOTS       = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 3, 2}
 )
 
 func getPublicKeyAlgorithmFromAlgorithm(alg pkix.AlgorithmIdentifier) PublicKeyAlgorithm {
@@ -682,6 +687,13 @@ func getPublicKeyAlgorithmFromAlgorithm(alg pkix.AlgorithmIdentifier) PublicKeyA
 			return SM2
 		}
 		return ECDSA
+	case oid.Equal(oidPublicKeyDilithium):
+		return Dilithium
+	case oid.Equal(oidPublicKeyKyber):
+		return Kyber
+	case oid.Equal(oidPublicKeyOTS):
+		return OTS
+
 	}
 	return UnknownPublicKeyAlgorithm
 }
