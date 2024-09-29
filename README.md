@@ -27,7 +27,7 @@ GM SM2/3/4 library based on Golang
 ## Usage 使用说明
 
 ```go
-go intall github.com/zaneway/cain-go
+go get github.com/zaneway/cain-go@v1.0.0
 ```
 
  ## [License](./LICENSE)
