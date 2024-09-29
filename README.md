@@ -24,19 +24,16 @@ GM SM2/3/4 library based on Golang
         . 提供Cipher.Block接口
         . 支持加密和不加密的pem文件格式(加密方法为pem block加密, 具体函数为x509.EncryptPEMBlock)
 
-## [Usage 使用说明](./API使用说明.md)
+## Usage 使用说明
 
+```go
+go intall github.com/zaneway/cain-go
+```
 
- ## License
+ ## [License](./LICENSE)
 
-
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-      http://www.apache.org/licenses/LICENSE-2.0
- Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- 
- See the License for the specific language governing permissions and limitations under the License.
-=======
+## Future
+工具化：asn1结构方向完善
 
 
 
