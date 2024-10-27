@@ -459,6 +459,7 @@ var (
 	oidSignatureSM2WithSM3      = asn1.ObjectIdentifier{1, 2, 156, 10197, 1, 501}
 	oidSignatureSM2WithSHA1     = asn1.ObjectIdentifier{1, 2, 156, 10197, 1, 502}
 	oidSignatureSM2WithSHA256   = asn1.ObjectIdentifier{1, 2, 156, 10197, 1, 503}
+
 	//Dilithium
 	oidSignatureDilithium = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 1, 1, 1}
 
@@ -1669,6 +1670,28 @@ var (
 	oidExtensionAuthorityInfoAccess   = []int{1, 3, 6, 1, 5, 5, 7, 1, 1}
 	oidExtensionCRLNumber             = []int{2, 5, 29, 20}
 )
+
+// PQC扩展项默认OID
+var (
+	OidExtensionPQC = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 2}
+)
+
+type PQCValidation struct {
+	item PQCValidationItem
+}
+
+type PQCValidationItem struct {
+	LocalPQC  LocalPQCValidation `asn1:"tag:0,optional"`
+	RemotePQC interface{}        `asn1:"tag:1,optional"`
+}
+
+type LocalPQCValidation struct {
+	Issue              asn1.RawValue
+	SubjectKeyInfo     asn1.RawValue
+	Extensions         []pkix.Extension
+	SignatureAlgorithm SignatureAlgorithm
+	SignatureValue     asn1.BitString
+}
 
 var (
 	oidAuthorityInfoAccessOcsp    = asn1.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 48, 1}
