@@ -1676,19 +1676,30 @@ var (
 	OidExtensionPQC = asn1.ObjectIdentifier{1, 2, 156, 112562, 2, 3, 2}
 )
 
+/*
+	SubjectKeyInfo ::= SEQUENCE {
+	    algorithm       AlgorithmIdentifier,
+	    subjectPublicKey BIT STRING
+	}
+*/
+type SubjectKeyInfo struct {
+	Algorithm        pkix.AlgorithmIdentifier
+	SubjectPublicKey asn1.BitString
+}
+
 type PQCValidation struct {
 	item PQCValidationItem
 }
 
 type PQCValidationItem struct {
-	LocalPQC  LocalPQCValidation `asn1:"tag:0,optional"`
-	RemotePQC interface{}        `asn1:"tag:1,optional"`
+	LocalPQC  LocalPQCValidation `asn1:"choice,optional,tag:0"`
+	RemotePQC interface{}        `asn1:"choice,optional,tag:1"`
 }
 
 type LocalPQCValidation struct {
-	Issue              asn1.RawValue
-	SubjectKeyInfo     asn1.RawValue
-	Extensions         []pkix.Extension
+	Issue              pkix.Name
+	SubjectKeyInfo     SubjectKeyInfo
+	Extensions         []pkix.Extension `asn1:"optional,tag:0"`
 	SignatureAlgorithm SignatureAlgorithm
 	SignatureValue     asn1.BitString
 }
