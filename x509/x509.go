@@ -619,6 +619,38 @@ var (
 	oidPublicKeySM2   = asn1.ObjectIdentifier{1, 2, 156, 10197, 1, 301}
 )
 
+func ParseAlgorithmFromOid(identifier asn1.ObjectIdentifier) (result string) {
+	switch identifier {
+	case oidPublicKeySM2:
+		return "SM2 PublicKey"
+	case oidPublicKeyECDSA:
+		return "ECDSA PublicKey"
+	case oidPublicKeyRSA:
+		return "RSA PublicKey"
+	case oidExtKeyUsageServerAuth:
+		return "Server Auth"
+	case oidExtKeyUsageClientAuth:
+		return "Client Auth"
+	case oidExtKeyUsageOCSPSigning:
+		return "OCSP Signing"
+	case oidExtensionSubjectAltName:
+		return "Subject Alt Name"
+	case oidExtensionSubjectKeyId:
+		return "Subject Key Id"
+	case oidExtensionKeyUsage:
+		return "Key Usage"
+	case oidExtensionCertificatePolicies:
+		return "Certificate Policies"
+	case oidSM3withSM2:
+		return "SM3withSM2"
+	case oidEncryptionAlgorithmRSA:
+		return "Encryption Algorithm RSA"
+	case oidSM2:
+		return "SM2"
+	}
+	return
+}
+
 func getPublicKeyAlgorithmFromAlgorithm(alg pkix.AlgorithmIdentifier) PublicKeyAlgorithm {
 	oid := alg.Algorithm
 	switch {
