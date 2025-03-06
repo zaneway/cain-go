@@ -54,12 +54,12 @@ func TestSM4(t *testing.T) {
 	if !testCompare(data, ecbDec) {
 		t.Errorf("sm4 self enc and dec failed")
 	}
-	cbcMsg, err := Sm4Cbc(key, data, true)
+	cbcMsg, err := Sm4CbcPkcs7PaddingCipher(key, data, true)
 	if err != nil {
 		t.Errorf("sm4 enc error:%s", err)
 	}
 	fmt.Printf("cbcMsg = %x\n", cbcMsg)
-	cbcDec, err := Sm4Cbc(key, cbcMsg, false)
+	cbcDec, err := Sm4CbcPkcs7PaddingCipher(key, cbcMsg, false)
 	if err != nil {
 		t.Errorf("sm4 dec error:%s", err)
 		return

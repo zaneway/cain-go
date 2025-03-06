@@ -299,7 +299,7 @@ func SetIV(iv []byte) error {
 	return nil
 }
 
-func Sm4Cbc(key []byte, in []byte, mode bool) (out []byte, err error) {
+func Sm4CbcPkcs7PaddingCipher(key []byte, in []byte, mode bool) (out []byte, err error) {
 	if len(key) != BlockSize {
 		return nil, errors.New("SM4: invalid key size " + strconv.Itoa(len(key)))
 	}
@@ -338,6 +338,41 @@ func Sm4Cbc(key []byte, in []byte, mode bool) (out []byte, err error) {
 
 	return out, nil
 }
+
+func Sm4CbcNoPaddingCipher(key []byte, in []byte, mode bool) (out []byte, err error) {
+	if len(key) != BlockSize {
+		return nil, errors.New("SM4: invalid key size " + strconv.Itoa(len(key)))
+	}
+	var inData []byte
+	inData = in
+	iv := make([]byte, BlockSize)
+	copy(iv, IV)
+	out = make([]byte, len(inData))
+	c, err := NewCipher(key)
+	if err != nil {
+		return nil, err
+	}
+	if mode {
+		for i := 0; i < len(inData)/16; i++ {
+			in_tmp := xor(inData[i*16:i*16+16], iv)
+			out_tmp := make([]byte, 16)
+			c.Encrypt(out_tmp, in_tmp)
+			copy(out[i*16:i*16+16], out_tmp)
+			iv = out_tmp
+		}
+	} else {
+		for i := 0; i < len(inData)/16; i++ {
+			in_tmp := inData[i*16 : i*16+16]
+			out_tmp := make([]byte, 16)
+			c.Decrypt(out_tmp, in_tmp)
+			out_tmp = xor(out_tmp, iv)
+			copy(out[i*16:i*16+16], out_tmp)
+			iv = in_tmp
+		}
+	}
+	return out, nil
+}
+
 func Sm4EcbPkcs7PaddingCipher(key []byte, in []byte, mode bool) (out []byte, err error) {
 	if len(key) != BlockSize {
 		return nil, errors.New("SM4: invalid key size " + strconv.Itoa(len(key)))
@@ -378,11 +413,7 @@ func Sm4EcbNoPaddingCipher(key []byte, in []byte, mode bool) (out []byte, err er
 		return nil, errors.New("SM4: invalid key size " + strconv.Itoa(len(key)))
 	}
 	var inData []byte
-	if mode {
-		inData = pkcs7Padding(in)
-	} else {
-		inData = in
-	}
+	inData = in
 	out = make([]byte, len(inData))
 	c, err := NewCipher(key)
 	if err != nil {
@@ -402,7 +433,6 @@ func Sm4EcbNoPaddingCipher(key []byte, in []byte, mode bool) (out []byte, err er
 			c.Decrypt(out_tmp, in_tmp)
 			copy(out[i*16:i*16+16], out_tmp)
 		}
-		out, _ = pkcs7UnPadding(out)
 	}
 
 	return out, nil
