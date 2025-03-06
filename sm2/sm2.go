@@ -49,7 +49,7 @@ type PrivateKey struct {
 	D *big.Int
 }
 
-type sm2Cipher struct {
+type Sm2Cipher struct {
 	XCoordinate *big.Int
 	YCoordinate *big.Int
 	HASH        []byte
@@ -374,6 +374,37 @@ func Decrypt(priv *PrivateKey, data []byte, mode int) ([]byte, error) {
 	return c, nil
 }
 
+func DecryptCipher(priv *PrivateKey, data Sm2Cipher) ([]byte, error) {
+	length := len(data.CipherText)
+	curve := priv.Curve
+	x2, y2 := curve.ScalarMult(data.XCoordinate, data.YCoordinate, priv.D.Bytes())
+	x2Buf := x2.Bytes()
+	y2Buf := y2.Bytes()
+	if n := len(x2Buf); n < 32 {
+		x2Buf = append(zeroByteSlice()[:32-n], x2Buf...)
+	}
+	if n := len(y2Buf); n < 32 {
+		y2Buf = append(zeroByteSlice()[:32-n], y2Buf...)
+	}
+	c, ok := kdf(length, x2Buf, y2Buf)
+	if !ok {
+		return nil, errors.New("Decrypt: failed to decrypt")
+	}
+
+	for i := 0; i < length; i++ {
+		c[i] ^= data.CipherText[i]
+	}
+	tm := []byte{}
+	tm = append(tm, x2Buf...)
+	tm = append(tm, c...)
+	tm = append(tm, y2Buf...)
+	h := sm3.Sm3Sum(tm)
+	if bytes.Compare(h, data.HASH) != 0 {
+		return c, errors.New("Decrypt: compare c3 error")
+	}
+	return c, nil
+}
+
 // keyExchange 为SM2密钥交换算法的第二部和第三步复用部分，协商的双方均调用此函数计算共同的字节串
 // klen: 密钥长度
 // ida, idb: 协商双方的标识，ida为密钥协商算法发起方标识，idb为响应方标识
@@ -521,14 +552,14 @@ func CipherMarshal(data []byte) ([]byte, error) {
 	y := new(big.Int).SetBytes(data[32:64])
 	hash := data[64:96]
 	cipherText := data[96:]
-	return asn1.Marshal(sm2Cipher{x, y, hash, cipherText})
+	return asn1.Marshal(Sm2Cipher{x, y, hash, cipherText})
 }
 
 /*
 sm2密文asn.1编码格式转C1|C3|C2拼接格式
 */
 func CipherUnmarshal(data []byte) ([]byte, error) {
-	var cipher sm2Cipher
+	var cipher Sm2Cipher
 	_, err := asn1.Unmarshal(data, &cipher)
 	if err != nil {
 		return nil, err

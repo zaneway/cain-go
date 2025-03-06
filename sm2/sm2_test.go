@@ -18,6 +18,8 @@ package sm2
 import (
 	"bytes"
 	"crypto/rand"
+	"encoding/asn1"
+	"encoding/hex"
 	"fmt"
 	"io/ioutil"
 	"math/big"
@@ -41,10 +43,16 @@ func TestSm2(t *testing.T) {
 	}
 	// fmt.Printf("Cipher text = %v\n", d0)
 	d1, err := priv.DecryptAsn1(d0)
+
+	var cipher Sm2Cipher
+	asn1.Unmarshal(d0, &cipher)
+	d11, err := DecryptCipher(priv, cipher)
+	fmt.Printf(hex.EncodeToString(d11))
 	if err != nil {
 		fmt.Printf("Error: failed to decrypt: %v\n", err)
 	}
 	fmt.Printf("clear text = %s\n", d1)
+
 	d2, err := Encrypt(pub, msg, rand.Reader, C1C2C3)
 	if err != nil {
 		fmt.Printf("Error: failed to encrypt %s: %v\n", msg, err)
