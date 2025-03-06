@@ -36,7 +36,7 @@ func TestSM4(t *testing.T) {
 		t.Fatal(err)
 	}
 	fmt.Printf("data = %x\n", data)
-	ecbMsg, err := Sm4Ecb(key, data, true)
+	ecbMsg, err := Sm4EcbPkcs7PaddingCipher(key, data, true)
 	if err != nil {
 		t.Errorf("sm4 enc error:%s", err)
 		return
@@ -45,7 +45,7 @@ func TestSM4(t *testing.T) {
 	iv := []byte("0000000000000000")
 	err = SetIV(iv)
 	fmt.Printf("err = %v\n", err)
-	ecbDec, err := Sm4Ecb(key, ecbMsg, false)
+	ecbDec, err := Sm4EcbPkcs7PaddingCipher(key, ecbMsg, false)
 	if err != nil {
 		t.Errorf("sm4 dec error:%s", err)
 		return
