@@ -321,6 +321,7 @@ func Encrypt(pub *PublicKey, data []byte, random io.Reader, mode int) ([]byte, e
 	}
 }
 
+// data is not asn1 encoding
 func Decrypt(priv *PrivateKey, data []byte, mode int) ([]byte, error) {
 	switch mode {
 	case C1C3C2:
@@ -341,6 +342,7 @@ func Decrypt(priv *PrivateKey, data []byte, mode int) ([]byte, error) {
 	default:
 		data = data[1:]
 	}
+	//todo 没有校验点h，计算s的无穷远点
 	length := len(data) - 96
 	curve := priv.Curve
 	x := new(big.Int).SetBytes(data[:32])
@@ -677,6 +679,7 @@ func getLastBit(a *big.Int) uint {
 }
 
 // crypto.Decrypter
+// msg is not asn1 encoding
 func (priv *PrivateKey) Decrypt(_ io.Reader, msg []byte, _ crypto.DecrypterOpts) (plaintext []byte, err error) {
 	return Decrypt(priv, msg, C1C3C2)
 }
