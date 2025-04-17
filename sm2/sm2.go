@@ -24,14 +24,11 @@ import (
 	"encoding/asn1"
 	"encoding/binary"
 	"errors"
-	"github.com/zaneway/cain-go/pkcs12"
 	"github.com/zaneway/cain-go/sm3"
-	"github.com/zaneway/cain-go/x509"
-	"io"
-	"math/big"
-
 	"golang.org/x/crypto/cryptobyte"
 	cbasn1 "golang.org/x/crypto/cryptobyte/asn1"
+	"io"
+	"math/big"
 )
 
 var (
@@ -61,14 +58,6 @@ type Sm2Cipher struct {
 // The SM2's private key contains the public key
 func (priv *PrivateKey) Public() crypto.PublicKey {
 	return &priv.PublicKey
-}
-
-func (priv *PrivateKey) BuildPrivateKeyInfo() x509.PrivateKeyInfo {
-	privateKeyInfo := new(x509.PrivateKeyInfo)
-	privateKeyInfo.PrivateKey = priv.D.Bytes()
-	privateKeyInfo.PrivateKeyAlgorithm = []asn1.ObjectIdentifier{pkcs12.OidPublicKeyECDSA, pkcs12.OidNamedCurveP256SM2}
-	privateKeyInfo.Version = 0
-	return *privateKeyInfo
 }
 
 var errZeroParam = errors.New("zero parameter")
