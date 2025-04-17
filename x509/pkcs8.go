@@ -59,7 +59,7 @@ var (
 type PrivateKeyInfo struct {
 	Version             int // v1 or v2
 	PrivateKeyAlgorithm []asn1.ObjectIdentifier
-	PrivateKey          []byte
+	PrivateKey          []byte //sm2PrivateKey
 }
 
 // reference to https://www.rfc-editor.org/rfc/rfc5958.txt
