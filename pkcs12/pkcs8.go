@@ -14,6 +14,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/zaneway/cain-go/sm2"
+	cx509 "github.com/zaneway/cain-go/x509"
 	"math/big"
 )
 
@@ -90,7 +91,7 @@ func ParsePKCS8PrivateKey(der []byte) (key interface{}, err error) {
 	}
 }
 func parseECPrivateKey(namedCurveOID *asn1.ObjectIdentifier, der []byte) (key *ecdsa.PrivateKey, err error) {
-	var privKey ecPrivateKey
+	var privKey EcPrivateKey
 	if _, err := asn1.Unmarshal(der, &privKey); err != nil {
 		return nil, errors.New("x509: failed to parse EC private key: " + err.Error())
 	}
@@ -188,7 +189,7 @@ func MarshalPrivateKey(key *sm2.PrivateKey, oid asn1.ObjectIdentifier) ([]byte, 
 	privateKeyBytes := key.D.Bytes()
 	paddedPrivateKey := make([]byte, (key.Curve.Params().N.BitLen()+7)/8)
 	copy(paddedPrivateKey[len(paddedPrivateKey)-len(privateKeyBytes):], privateKeyBytes)
-	return asn1.Marshal(ecPrivateKey{
+	return asn1.Marshal(EcPrivateKey{
 		Version:       1,
 		PrivateKey:    paddedPrivateKey,
 		NamedCurveOID: oid,
@@ -196,7 +197,20 @@ func MarshalPrivateKey(key *sm2.PrivateKey, oid asn1.ObjectIdentifier) ([]byte, 
 	})
 }
 
-type ecPrivateKey struct {
+func BuildPrivateKeyInfoNoPublicKey(priv *sm2.PrivateKey, oid asn1.ObjectIdentifier) cx509.PrivateKeyInfo {
+	ecPrivateKey, _ := asn1.Marshal(EcPrivateKey{
+		Version:       1,
+		PrivateKey:    priv.D.Bytes(),
+		NamedCurveOID: oid,
+	})
+	return cx509.PrivateKeyInfo{
+		PrivateKeyAlgorithm: []asn1.ObjectIdentifier{OidPublicKeyECDSA, OidNamedCurveP256SM2},
+		PrivateKey:          ecPrivateKey,
+		Version:             0,
+	}
+}
+
+type EcPrivateKey struct {
 	Version       int
 	PrivateKey    []byte
 	NamedCurveOID asn1.ObjectIdentifier `asn1:"optional,explicit,tag:0"`
